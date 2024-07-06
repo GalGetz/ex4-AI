@@ -7,6 +7,119 @@ def create_domain_file(domain_file_name, n_, m_):
     domain_file = open(domain_file_name, 'w')  # use domain_file.write(str) to write to domain_file
     "*** YOUR CODE HERE ***"
 
+    domain_file.write("Propositions:\n")
+    props = set()
+    for p in pegs:
+        props.add(f"empty_in_{p}")
+
+    for i, d in enumerate(disks):
+        for p in pegs:
+            props.add(f"{d}_bottom_in_{p}")
+            props.add(f"{d}_top_in_{p}")
+            for j in range(i + 1, len(disks)):
+                props.add(f"{d}_on_{disks[j]}_in_{p}")
+
+    for p in props:
+        domain_file.write(p + ' ')
+
+    domain_file.write('\nActions:\n')
+
+    for i in range(len(disks)):
+        for j in range(i + 1, len(disks)):
+            for k in range(i + 1, len(disks)):
+                if k != j :
+                    for p1 in pegs:
+                        for p2 in pegs:
+                            if p1 != p2:
+                                d1 = disks[i]
+                                d2 = disks[j]
+                                d3 = disks[k]
+
+                                action = f"m_{d1}_from_{d2}_on_{p1}_to_{d3}_in_{p2}"
+                                preconditions = [f"{d1}_on_{d2}_in_{p1}",
+                                                 f"{d1}_top_in_{p1}",
+                                                 f"{d3}_top_in_{p2}"]
+                                add_effects = [f"{d1}_on_{d3}_in_{p2}",
+                                               f"{d2}_top_in_{p1}",
+                                               f"{d1}_top_in_{p2}"]
+
+                                domain_file.write(f"Name: {action}\n")
+                                domain_file.write("pre: " + " ".join(preconditions) + '\n')
+                                domain_file.write("add: " + " ".join(add_effects) + '\n')
+                                domain_file.write("delete: " + " ".join(preconditions) + '\n')
+
+    for i in range(len(disks)):
+        for p1 in pegs:
+            for p2 in pegs:
+                if p1 != p2:
+                    d1 = disks[i]
+
+                    action = f"m_{d1}_in_{p1}_to_{p2}"
+                    preconditions = [f"{d1}_top_in_{p1}",
+                                     f"{d1}_bottom_in_{p1}",
+                                     f"empty_in_{p2}"]
+                    add_effects = [f"{d1}_top_in_{p2}",
+                                     f"{d1}_bottom_in_{p2}",
+                                     f"empty_in_{p1}"]
+
+                    domain_file.write(f"Name: {action}\n")
+                    domain_file.write(
+                        "pre: " + " ".join(preconditions) + '\n')
+                    domain_file.write(
+                        "add: " + " ".join(add_effects) + '\n')
+                    domain_file.write(
+                        "delete: " + " ".join(preconditions) + '\n')
+
+    # Disk on empty to on disk
+    for i in range(len(disks)):
+        for j in range(i + 1, len(disks)):
+            for p1 in pegs:
+                for p2 in pegs:
+                    if p1 != p2:
+                        d1 = disks[i]
+                        d2 = disks[j]
+
+                        action_name = f"m_{d1}_in_{p1}_to_{d2}_in_{p2}"
+                        preconditions = [f"{d1}_bottom_in_{p1}",
+                                         f"{d1}_top_in_{p1}",
+                                         f"{d2}_top_in_{p2}"]
+                        add_effects = [f"{d1}_on_{d2}_in_{p2}",
+                                       f"empty_in_{p1}",
+                                       f"{d1}_top_in_{p2}"]
+
+                        domain_file.write(f"Name: {action_name}\n")
+                        domain_file.write(
+                            "pre: " + " ".join(preconditions) + '\n')
+                        domain_file.write(
+                            "add: " + " ".join(add_effects) + '\n')
+                        domain_file.write(
+                            "delete: " + " ".join(preconditions) + '\n')
+
+        # Disk on disk to empty
+        for i in range(len(disks)):
+            for j in range(i + 1, len(disks)):
+                for p1 in pegs:
+                    for p2 in pegs:
+                        if p1 != p2:
+                            d1 = disks[i]
+                            d2 = disks[j]
+
+                            action_name = f"m_{d1}_on_{d2}_in_{p1}_to_{p2}"
+                            preconditions = [f"{d1}_on_{d2}_in_{p1}",
+                                             f"{d1}_top_in_{p1}",
+                                             f"empty_in_{p2}"]
+                            add_effects = [f"{d1}_top_in_{p2}",
+                                           f"{d1}_bottom_in_{p1}",
+                                           f"{d2}_top_in_{p1}"]
+
+                            domain_file.write(f"Name: {action_name}\n")
+                            domain_file.write(
+                                "pre: " + " ".join(preconditions) + '\n')
+                            domain_file.write(
+                                "add: " + " ".join(add_effects) + '\n')
+                            domain_file.write(
+                                "delete: " + " ".join(preconditions) + '\n')
+
     domain_file.close()
 
 
