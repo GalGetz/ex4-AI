@@ -234,6 +234,23 @@ def independent_pair(a1, a2):
     a1.is_neg_effect(p) returns true is p is in a1.get_delete()
     """
     "*** YOUR CODE HERE ***"
+    # Check for inconsistent effects
+    for effect in a1.get_add():
+        if a2.is_neg_effect(effect):
+            return False
+    for effect in a2.get_add():
+        if a1.is_neg_effect(effect):
+            return False
+
+    # Check for interference
+    for pre in a1.get_pre():
+        if a2.is_neg_effect(pre):
+            return False
+    for pre in a2.get_pre():
+        if a1.is_neg_effect(pre):
+            return False
+
+    return True
 
 
 if __name__ == '__main__':
