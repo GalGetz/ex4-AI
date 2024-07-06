@@ -133,19 +133,19 @@ def create_problem_file(problem_file_name_, n_, m_):
     for p in pegs[1:]:
         problem_file.write(f"empty_in_{p} ")
 
-    problem_file.write(f"{disks[n - 1]}_bottom_in_{pegs[0]} ")
-    for i in range(n - 1):
+    problem_file.write(f"{disks[-1]}_bottom_in_{pegs[0]} ")
+    for i in range(n_ - 1):
         problem_file.write(f"{disks[i]}_on_{disks[i + 1]}_in_{pegs[0]} ")
     problem_file.write(f"{disks[0]}_top_in_{pegs[0]} \n")
 
     problem_file.write("Goal state: ")
 
-    problem_file.write(f"{disks[n - 1]}_bottom_in_{pegs[-1]} ")
-    for i in range(n - 1):
+    problem_file.write(f"{disks[-1]}_bottom_in_{pegs[-1]} ")
+    for i in range(n_ - 1):
         problem_file.write(f"{disks[i]}_on_{disks[i + 1]}_in_{pegs[-1]} ")
     problem_file.write(f"{disks[0]}_top_in_{pegs[0]} ")
 
-    for p in pegs[0: m - 1]:
+    for p in pegs[0: m_ - 1]:
         problem_file.write(f"empty_in_{p} ")
 
     problem_file.close()
