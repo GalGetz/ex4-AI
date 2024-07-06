@@ -59,6 +59,20 @@ class PlanGraphLevel(object):
         """
         all_actions = PlanGraphLevel.actions
         "*** YOUR CODE HERE ***"
+        for action in all_actions:
+            if previous_proposition_layer.all_preconds_in_layer(action):
+                # Check pairwise mutex
+                preconditions = action.get_pre()
+                pairwise_mutex = False
+                for i in range(len(preconditions)):
+                    for j in range(i + 1, len(preconditions)):
+                        if previous_proposition_layer.is_mutex(preconditions[i], preconditions[j]):
+                            pairwise_mutex = True
+                            break
+                    if pairwise_mutex:
+                        break
+                if not pairwise_mutex:
+                    self.action_layer.add_action(action)
 
     def update_mutex_actions(self, previous_layer_mutex_proposition):
         """
