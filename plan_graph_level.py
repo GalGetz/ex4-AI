@@ -135,6 +135,11 @@ class PlanGraphLevel(object):
         current_layer_propositions = self.proposition_layer.get_propositions()
         current_layer_mutex_actions = self.action_layer.get_mutex_actions()
         "*** YOUR CODE HERE ***"
+        for prop1 in current_layer_propositions:
+            for prop2 in current_layer_propositions:
+                if prop1 != prop2:
+                    if mutex_propositions(prop1, prop2, current_layer_mutex_actions):
+                        self.proposition_layer.add_mutex_prop(prop1, prop2)
 
     def expand(self, previous_layer):
         """
@@ -149,6 +154,15 @@ class PlanGraphLevel(object):
         previous_layer_mutex_proposition = previous_proposition_layer.get_mutex_props()
 
         "*** YOUR CODE HERE ***"
+        # Step 1: Update actions in the action layer
+        self.update_action_layer(previous_proposition_layer)
+
+        # Step 2: Update mutex actions in the action layer
+        self.update_mutex_actions(previous_layer_mutex_proposition)
+
+        # Step 3: Update propositions and their mutex relations in the proposition layer
+        self.update_proposition_layer()
+        self.update_mutex_proposition()
 
     def expand_without_mutex(self, previous_layer):
         """
