@@ -2,6 +2,7 @@ from action_layer import ActionLayer
 from util import Pair
 from proposition import Proposition
 from proposition_layer import PropositionLayer
+import itertools
 
 
 class PlanGraphLevel(object):
@@ -87,6 +88,10 @@ class PlanGraphLevel(object):
         current_layer_actions = self.action_layer.get_actions()
         "*** YOUR CODE HERE ***"
 
+        for action1, action2 in itertools.combinations(current_layer_actions, 2):
+            if mutex_actions(action1, action2, previous_layer_mutex_proposition):
+                self.action_layer.add_mutex_actions(action1, action2)
+
     def update_proposition_layer(self):
         """
         Updates the propositions in the current proposition layer,
@@ -103,6 +108,20 @@ class PlanGraphLevel(object):
         """
         current_layer_actions = self.action_layer.get_actions()
         "*** YOUR CODE HERE ***"
+        proposition_to_producers = dict()
+
+        # Step 1: Track which actions produce which propositions
+        for action in current_layer_actions:
+            for prop in action.get_add():
+                if prop not in proposition_to_producers:
+                    proposition_to_producers[prop] = set()
+                proposition_to_producers[prop].add(action)
+
+        # Step 2: Create Proposition instances and add them to the current proposition layer
+        for prop, producers in proposition_to_producers.items():
+            new_prop = Proposition(prop.get_name())  # Create new instance with the proposition's name
+            new_prop.set_producers(producers)  # Set the producers for this proposition
+            self.proposition_layer.add_proposition(new_prop)  # Add the proposition to the current layer
 
     def update_mutex_proposition(self):
         """
