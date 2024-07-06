@@ -109,7 +109,7 @@ def create_domain_file(domain_file_name, n_, m_):
                                              f"{d1}_top_in_{p1}",
                                              f"empty_in_{p2}"]
                             add_effects = [f"{d1}_top_in_{p2}",
-                                           f"{d1}_bottom_in_{p1}",
+                                           f"{d1}_bottom_in_{p2}",
                                            f"{d2}_top_in_{p1}"]
 
                             domain_file.write(f"Name: {action}\n")
@@ -143,9 +143,9 @@ def create_problem_file(problem_file_name_, n_, m_):
     problem_file.write(f"{disks[-1]}_bottom_in_{pegs[-1]} ")
     for i in range(n_ - 1):
         problem_file.write(f"{disks[i]}_on_{disks[i + 1]}_in_{pegs[-1]} ")
-    problem_file.write(f"{disks[0]}_top_in_{pegs[0]} ")
+    problem_file.write(f"{disks[0]}_top_in_{pegs[-1]} ")
 
-    for p in pegs[0: m_ - 1]:
+    for p in pegs[:-1]:
         problem_file.write(f"empty_in_{p} ")
 
     problem_file.close()
