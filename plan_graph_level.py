@@ -165,3 +165,15 @@ def mutex_propositions(prop1, prop2, mutex_actions_list):
     prop1.get_producers() returns the set of all the possible actions in the layer that have prop1 on their add list
     """
     "*** YOUR CODE HERE ***"
+    # Get the sets of actions that produce prop1 and prop2
+    producers1 = prop1.get_producers()
+    producers2 = prop2.get_producers()
+
+    # Check if all pairs of actions (one from each set) are mutex
+    for action1 in producers1:
+        for action2 in producers2:
+            if Pair(action1, action2) not in mutex_actions_list:
+                return False
+
+    # If all pairs are mutex, return True
+    return True
