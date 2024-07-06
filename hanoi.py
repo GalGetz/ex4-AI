@@ -128,6 +128,25 @@ def create_problem_file(problem_file_name_, n_, m_):
     pegs = ['p_%s' % i for i in list(range(m_))]  # [p_0,..., p_(m_ - 1)]
     problem_file = open(problem_file_name_, 'w')  # use problem_file.write(str) to write to problem_file
     "*** YOUR CODE HERE ***"
+    problem_file.write("Initial state: ")
+
+    for p in pegs[1:]:
+        problem_file.write(f"empty_in_{p} ")
+
+    problem_file.write(f"{disks[n - 1]}_bottom_in_{pegs[0]} ")
+    for i in range(n - 1):
+        problem_file.write(f"{disks[i]}_on_{disks[i + 1]}_in_{pegs[0]} ")
+    problem_file.write(f"{disks[0]}_on_top_{pegs[0]} \n")
+
+    problem_file.write("Goal state: ")
+
+    problem_file.write(f"{disks[n - 1]}_bottom_in_{pegs[-1]} ")
+    for i in range(n - 1):
+        problem_file.write(f"{disks[i]}_on_{disks[i + 1]}_in_{pegs[-1]} ")
+    problem_file.write(f"{disks[0]}_on_top_{pegs[0]} \n")
+
+    for p in pegs[0: m - 1]:
+        problem_file.write(f"empty_in_{p} ")
 
     problem_file.close()
 
