@@ -172,6 +172,12 @@ class PlanGraphLevel(object):
         previous_layer_proposition = previous_layer.get_proposition_layer()
         "*** YOUR CODE HERE ***"
 
+        # Set actions in the action layer without considering mutex
+        self.update_action_layer(previous_layer_proposition)
+
+        # Set propositions and their relations in the proposition layer
+        self.update_proposition_layer()
+
 
 def mutex_actions(a1, a2, mutex_props):
     """

@@ -116,6 +116,24 @@ def max_level(state, planning_problem):
     pg_init.set_proposition_layer(prop_layer_init)   #update the new plan graph level with the the proposition layer
     """
     "*** YOUR CODE HERE ***"
+    prop_layer_init = PropositionLayer()  # create a new proposition layer
+    for prop in state:
+        prop_layer_init.add_proposition(prop)  # update the proposition layer with propositions of the state
+
+    pg_init = PlanGraphLevel()  # create a new plan graph level
+    pg_init.set_proposition_layer(prop_layer_init)  # update the new plan graph level with the proposition layer
+
+    level = 0
+    graph = [pg_init]
+    while not planning_problem.is_goal_state(graph[level].get_proposition_layer().get_propositions()):
+        graph.append(PlanGraphLevel())
+        graph[level+1].expand_without_mutex(graph[level])
+        level += 1
+        if is_fixed(graph, level):
+            return float('inf')  # Goal not reachable
+
+    return level
+
 
 
 def level_sum(state, planning_problem):
@@ -124,6 +142,33 @@ def level_sum(state, planning_problem):
     If the goal is not reachable from the state your heuristic should return float('inf')
     """
     "*** YOUR CODE HERE ***"
+    prop_layer_init = PropositionLayer()  # create a new proposition layer
+    for prop in state:
+        prop_layer_init.add_proposition(prop)  # update the proposition layer with propositions of the state
+
+    pg_init = PlanGraphLevel()  # create a new plan graph level
+    pg_init.set_proposition_layer(prop_layer_init)  # update the new plan graph level with the proposition layer
+
+    level = 0
+    graph = [pg_init]
+    goal_propositions = planning_problem.goal
+
+    while not planning_problem.is_goal_state(graph[level].get_proposition_layer().get_propositions()):
+        graph.append(PlanGraphLevel())
+        graph[level + 1].expand_without_mutex(graph[level])
+        level += 1
+        if is_fixed(graph, level):
+            return float('inf')  # Goal not reachable
+
+    # Calculate the sum of sub-goals' levels where they first appeared
+    sum_levels = 0
+    for goal in goal_propositions:
+        for l in range(level + 1):
+            if goal in graph[l].get_proposition_layer().get_propositions():
+                sum_levels += l
+                break
+
+    return sum_levels
 
 
 def is_fixed(graph, level):
