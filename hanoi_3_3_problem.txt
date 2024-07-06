@@ -1,3 +1,2 @@
 Initial state: empty_in_p_1 empty_in_p_2 d_2_bottom_in_p_0 d_0_on_d_1_in_p_0 d_1_on_d_2_in_p_0 d_0_top_in_p_0 
-Goal state: d_2_bottom_in_p_2 d_0_on_d_1_in_p_2 d_1_on_d_2_in_p_2 d_0_top_in_p_0 
-empty_in_p_0 empty_in_p_1 
+Goal state: d_2_bottom_in_p_2 d_0_on_d_1_in_p_2 d_1_on_d_2_in_p_2 d_0_top_in_p_0 empty_in_p_0 empty_in_p_1 

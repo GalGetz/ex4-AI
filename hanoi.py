@@ -35,7 +35,7 @@ def create_domain_file(domain_file_name, n_, m_):
                                 d2 = disks[j]
                                 d3 = disks[k]
 
-                                action = f"m_{d1}_from_{d2}_on_{p1}_to_{d3}_in_{p2}"
+                                action = f"m_{d1}_from_{d2}_in_{p1}_to_{d3}_in_{p2}"
                                 preconditions = [f"{d1}_on_{d2}_in_{p1}",
                                                  f"{d1}_top_in_{p1}",
                                                  f"{d3}_top_in_{p2}"]
@@ -79,7 +79,7 @@ def create_domain_file(domain_file_name, n_, m_):
                         d1 = disks[i]
                         d2 = disks[j]
 
-                        action_name = f"m_{d1}_in_{p1}_to_{d2}_in_{p2}"
+                        action = f"m_{d1}_in_{p1}_to_{d2}_in_{p2}"
                         preconditions = [f"{d1}_bottom_in_{p1}",
                                          f"{d1}_top_in_{p1}",
                                          f"{d2}_top_in_{p2}"]
@@ -87,7 +87,7 @@ def create_domain_file(domain_file_name, n_, m_):
                                        f"empty_in_{p1}",
                                        f"{d1}_top_in_{p2}"]
 
-                        domain_file.write(f"Name: {action_name}\n")
+                        domain_file.write(f"Name: {action}\n")
                         domain_file.write(
                             "pre: " + " ".join(preconditions) + '\n')
                         domain_file.write(
@@ -104,7 +104,7 @@ def create_domain_file(domain_file_name, n_, m_):
                             d1 = disks[i]
                             d2 = disks[j]
 
-                            action_name = f"m_{d1}_on_{d2}_in_{p1}_to_{p2}"
+                            action = f"m_{d1}_on_{d2}_in_{p1}_to_{p2}"
                             preconditions = [f"{d1}_on_{d2}_in_{p1}",
                                              f"{d1}_top_in_{p1}",
                                              f"empty_in_{p2}"]
@@ -112,7 +112,7 @@ def create_domain_file(domain_file_name, n_, m_):
                                            f"{d1}_bottom_in_{p1}",
                                            f"{d2}_top_in_{p1}"]
 
-                            domain_file.write(f"Name: {action_name}\n")
+                            domain_file.write(f"Name: {action}\n")
                             domain_file.write(
                                 "pre: " + " ".join(preconditions) + '\n')
                             domain_file.write(
@@ -143,7 +143,7 @@ def create_problem_file(problem_file_name_, n_, m_):
     problem_file.write(f"{disks[n - 1]}_bottom_in_{pegs[-1]} ")
     for i in range(n - 1):
         problem_file.write(f"{disks[i]}_on_{disks[i + 1]}_in_{pegs[-1]} ")
-    problem_file.write(f"{disks[0]}_top_in_{pegs[0]} \n")
+    problem_file.write(f"{disks[0]}_top_in_{pegs[0]} ")
 
     for p in pegs[0: m - 1]:
         problem_file.write(f"empty_in_{p} ")
